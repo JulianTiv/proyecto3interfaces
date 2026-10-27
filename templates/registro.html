@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block titulo %}Crear cuenta{% endblock %}
+{% block contenido %}
+  <p class="etiqueta-superior">Nuevo perfil</p>
+  <h1>Crear cuenta</h1>
+
+  {% include "mensajes.html" %}
+
+  <form method="post">
+    <label for="usuario">Usuario</label>
+    <input type="text" id="usuario" name="usuario" value="{{ usuario }}" placeholder="Elige un usuario" required autofocus>
+
+    <label for="password">Contraseña</label>
+    <input type="password" id="password" name="password" placeholder="Mínimo 8 caracteres" required>
+
+    <label for="confirmar">Confirmar contraseña</label>
+    <input type="password" id="confirmar" name="confirmar" placeholder="Repite la contraseña" required>
+
+    <span class="etiqueta-grupo">Perfil</span>
+    <div class="opciones">
+      {% for p in perfiles %}
+        <input type="radio" id="perfil-{{ p }}" name="perfil" value="{{ p }}" {% if p == perfil %}checked{% endif %}>
+        <label for="perfil-{{ p }}">{{ p }}</label>
+      {% endfor %}
+    </div>
+
+    <button type="submit" class="boton">Crear cuenta</button>
+  </form>
+
+  <p class="enlace-pie">¿Ya tienes cuenta? <a href="{{ url_for('login') }}">Inicia sesión</a></p>
+{% endblock %}

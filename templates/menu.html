@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block titulo %}Menú{% endblock %}
+{% block contenido %}
+  <p class="etiqueta-superior">Hola, {{ usuario }}</p>
+  <h1>¿Qué quieres calcular?</h1>
+
+  <ul class="menu">
+    {% for numero, opcion in opciones.items() %}
+      <li>
+        <a href="{{ url_for('calculo', numero=numero) }}">
+          <span class="numero">{{ numero }}</span>
+          <span class="nombre">{{ opcion.nombre }}</span>
+          <span class="flecha">›</span>
+        </a>
+      </li>
+    {% endfor %}
+    <li>
+      <a href="{{ url_for('salir') }}">
+        <span class="numero salir">8</span>
+        <span class="nombre">Salir</span>
+        <span class="flecha">›</span>
+      </a>
+    </li>
+  </ul>
+{% endblock %}

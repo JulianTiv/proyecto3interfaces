@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block titulo %}{{ opcion.nombre }}{% endblock %}
+{% block contenido %}
+  <p class="etiqueta-superior">Opción {{ numero }} de 8</p>
+  <h1>{{ opcion.nombre }}</h1>
+
+  {% include "mensajes.html" %}
+
+  <form method="post">
+    {% for campo in opcion.campos %}
+      {% if campo.tipo == "opciones" %}
+        <span class="etiqueta-grupo">{{ campo.etiqueta }}</span>
+        <div class="opciones">
+          {% for valor, texto in campo.opciones %}
+            <input type="radio" id="{{ campo.id }}-{{ valor }}" name="{{ campo.id }}" value="{{ valor }}"
+                   {% if valores[campo.id] == valor %}checked{% endif %}>
+            <label for="{{ campo.id }}-{{ valor }}">{{ texto }}</label>
+          {% endfor %}
+        </div>
+      {% else %}
+        <label for="{{ campo.id }}">{{ campo.etiqueta }}</label>
+        <input type="text" inputmode="decimal" id="{{ campo.id }}" name="{{ campo.id }}"
+               value="{{ valores.get(campo.id, '') }}" placeholder="0.00">
+      {% endif %}
+    {% endfor %}
+
+    <button type="submit" class="boton">Calcular</button>
+  </form>
+
+  {% if resultado %}
+    <p class="etiqueta-seccion">Resultado</p>
+    <section class="resultado">
+      <p class="grande">{{ resultado.principal }}</p>
+      <p class="unidad">{{ resultado.unidad }}</p>
+
+      <p class="subtitulo">{{ resultado.titulo }}</p>
+      <ul class="materiales">
+        {% for nombre, cantidad, unidad in resultado.lista %}
+          <li><span>{{ nombre }}</span><strong>{{ cantidad }} {{ unidad }}</strong></li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% endif %}
+
+  <a href="{{ url_for('menu') }}" class="boton claro">Volver al menú</a>
+{% endblock %}
